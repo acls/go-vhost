@@ -164,6 +164,13 @@ func (m *VhostMuxer) get(name string) (l *Listener, ok bool) {
 	defer m.RUnlock()
 	l, ok = m.registry[name]
 	if !ok {
+		// try removing the port
+		host, _, err := net.SplitHostPort(name)
+		if err == nil {
+			l, ok = m.registry[host]
+		}
+	}
+	if !ok {
 		// look for a matching wildcard
 		parts := strings.Split(name, ".")
 		for i := 0; i < len(parts)-1; i++ {

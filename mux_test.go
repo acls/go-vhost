@@ -99,7 +99,7 @@ func TestHTTPMux(t *testing.T) {
 
 	got := string(body)
 	if got != msg {
-		t.Fatalf("unexpected resposne. got: %v, expected: %v", got, msg)
+		t.Fatalf("unexpected response. got: %v, expected: %v", got, msg)
 	}
 }
 
@@ -161,6 +161,8 @@ func TestMuxingPatterns(t *testing.T) {
 		{"sub.example.com", "sub.example.com"},
 		{"*.example.com", "sub.example.com"},
 		{"*.example.com", "nested.sub.example.com"},
+		{"example.com", "example.com:80"},
+		{"example.com", "example.com:443"},
 	}
 
 	for _, test := range tests {
